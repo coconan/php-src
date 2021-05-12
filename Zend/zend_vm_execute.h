@@ -54763,6 +54763,7 @@ static ZEND_OPCODE_HANDLER_RET ZEND_FASTCALL ZEND_NULL_HANDLER(ZEND_OPCODE_HANDL
 
 ZEND_API void execute_ex(zend_execute_data *ex)
 {
+        fprintf(stderr, "zend_vm_execute.h:execute_ex\n");
 	DCL_OPLINE
 
 #ifdef ZEND_VM_IP_GLOBAL_REG
@@ -63745,6 +63746,7 @@ ZEND_API void execute_ex(zend_execute_data *ex)
 
 ZEND_API void zend_execute(zend_op_array *op_array, zval *return_value)
 {
+        fprintf(stderr, "zend_vm_execute.h:zend_execute\n");
 	zend_execute_data *execute_data;
 
 	if (EG(exception) != NULL) {
