@@ -706,6 +706,7 @@ static zend_bool php_auto_globals_create_globals(zend_string *name) /* {{{ */
 
 int zend_startup(zend_utility_functions *utility_functions, char **extensions) /* {{{ */
 {
+	fprintf(stderr, "Zend/zend.c:zend_startup\n");
 #ifdef ZTS
 	zend_compiler_globals *compiler_globals;
 	zend_executor_globals *executor_globals;
@@ -770,6 +771,7 @@ int zend_startup(zend_utility_functions *utility_functions, char **extensions) /
 		}
 	}
 #else
+	fprintf(stderr, "zend_compile_file, zend_execute_ex\n");
 	zend_compile_file = compile_file;
 	zend_execute_ex = execute_ex;
 	zend_execute_internal = NULL;
@@ -1475,6 +1477,7 @@ ZEND_API void zend_try_exception_handler() /* {{{ */
 
 ZEND_API int zend_execute_scripts(int type, zval *retval, int file_count, ...) /* {{{ */
 {
+	fprintf(stderr, "Zend/zend.c:zend_execute_scripts\n");
 	va_list files;
 	int i;
 	zend_file_handle *file_handle;
@@ -1486,13 +1489,14 @@ ZEND_API int zend_execute_scripts(int type, zval *retval, int file_count, ...) /
 		if (!file_handle) {
 			continue;
 		}
-
+                fprintf(stderr, "zend_compile_file\n");
 		op_array = zend_compile_file(file_handle, type);
 		if (file_handle->opened_path) {
 			zend_hash_add_empty_element(&EG(included_files), file_handle->opened_path);
 		}
 		zend_destroy_file_handle(file_handle);
 		if (op_array) {
+			fprintf(stderr, "Zend/zend.c:zend_execute\n");
 			zend_execute(op_array, retval);
 			zend_exception_restore();
 			zend_try_exception_handler();

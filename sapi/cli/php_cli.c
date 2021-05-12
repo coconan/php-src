@@ -749,6 +749,7 @@ static int do_cli(int argc, char **argv) /* {{{ */
 		php_optind = orig_optind;
 		php_optarg = orig_optarg;
 		while ((c = php_getopt(argc, argv, OPTIONS, &php_optarg, &php_optind, 0, 2)) != -1) {
+			fprintf(stderr, "c: %c\n", c);
 			switch (c) {
 
 			case 'a':	/* interactive mode */
@@ -948,6 +949,7 @@ static int do_cli(int argc, char **argv) /* {{{ */
 			php_optind++;
 		}
 		if (script_file) {
+			fprintf(stderr, "script_file: %s\n", script_file);
 			if (cli_seek_file_begin(&file_handle, script_file, &lineno) != SUCCESS) {
 				goto err;
 			} else {
@@ -1001,6 +1003,7 @@ static int do_cli(int argc, char **argv) /* {{{ */
 		PG(during_request_startup) = 0;
 		switch (behavior) {
 		case PHP_MODE_STANDARD:
+			fprintf(stderr, "behavior: PHP_MODE_STANDARD\n");
 			if (strcmp(file_handle.filename, "Standard input code")) {
 				cli_register_file_handles();
 			}
@@ -1008,6 +1011,7 @@ static int do_cli(int argc, char **argv) /* {{{ */
 			if (interactive && cli_shell_callbacks.cli_shell_run) {
 				exit_status = cli_shell_callbacks.cli_shell_run();
 			} else {
+				fprintf(stderr, "php_execute_script\n");
 				php_execute_script(&file_handle);
 				exit_status = EG(exit_status);
 			}
@@ -1173,6 +1177,8 @@ static int do_cli(int argc, char **argv) /* {{{ */
 		}
 	} zend_end_try();
 
+	fprintf(stderr, "finished!!!\n");
+
 out:
 	if (request_started) {
 		php_request_shutdown((void *) 0);
@@ -1333,6 +1339,7 @@ int main(int argc, char *argv[])
 				php_cli_usage(argv[0]);
 				goto out;
 			case 'i': case 'v': case 'm':
+				fprintf(stderr, "Hello, PHP! I'm coconan!\n");
 				sapi_module = &cli_sapi_module;
 				goto exit_loop;
 			case 'e': /* enable extended info output */

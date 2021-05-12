@@ -575,6 +575,7 @@ END_EXTERN_C()
 
 static zend_op_array *zend_compile(int type)
 {
+        fprintf(stderr, "Zend/zend_language_scanner.l:zend_compile\n");
 	zend_op_array *op_array = NULL;
 	zend_bool original_in_compilation = CG(in_compilation);
 
@@ -603,6 +604,7 @@ static zend_op_array *zend_compile(int type)
 		zend_emit_final_return(type == ZEND_USER_FUNCTION);
 		op_array->line_start = 1;
 		op_array->line_end = last_lineno;
+                fprintf(stderr, "Zend/zend_language_scanner.l:zend_compile:pass_two\n");
 		pass_two(op_array);
 		zend_oparray_context_end(&original_oparray_context);
 		zend_file_context_end(&original_file_context);
@@ -620,6 +622,7 @@ static zend_op_array *zend_compile(int type)
 
 ZEND_API zend_op_array *compile_file(zend_file_handle *file_handle, int type)
 {
+        fprintf(stderr, "Zend/zend_language_scanner.l:compile_file\n");
 	zend_lex_state original_lex_state;
 	zend_op_array *op_array = NULL;
 	zend_save_lexical_state(&original_lex_state);

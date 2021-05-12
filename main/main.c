@@ -2497,6 +2497,7 @@ void php_module_shutdown(void)
  */
 PHPAPI int php_execute_script(zend_file_handle *primary_file)
 {
+	fprintf(stderr, "main/main.c:php_execute_script\n");
 	zend_file_handle *prepend_file_p, *append_file_p;
 	zend_file_handle prepend_file = {{0}, NULL, NULL, 0, 0}, append_file = {{0}, NULL, NULL, 0, 0};
 #if HAVE_BROKEN_GETCWD
@@ -2589,6 +2590,7 @@ PHPAPI int php_execute_script(zend_file_handle *primary_file)
 				retval = (zend_execute_scripts(ZEND_REQUIRE, NULL, 2, primary_file, append_file_p) == SUCCESS);
 			}
 		} else {
+			fprintf(stderr, "zend_execute_scripts\n");
 			retval = (zend_execute_scripts(ZEND_REQUIRE, NULL, 3, prepend_file_p, primary_file, append_file_p) == SUCCESS);
 		}
 	} zend_end_try();

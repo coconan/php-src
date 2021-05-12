@@ -558,6 +558,7 @@ static uint32_t zend_get_brk_cont_target(const zend_op_array *op_array, const ze
 
 ZEND_API int pass_two(zend_op_array *op_array)
 {
+	fprintf(stderr, "Zend/zend_opcode.c:pass_two\n");
 	zend_op *opline, *end;
 
 	if (!ZEND_USER_CODE(op_array->type)) {
